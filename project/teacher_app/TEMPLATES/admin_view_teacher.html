@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- jQuery library -->
+
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+
+
+</head>
+<body>
+    <ul class="nav nav-pills nav-fill" style="padding: 22px 29px;
+    background: #d4d0d0;">
+        <li class="nav-item">
+          <a style="    background: #27637a;
+          color: white;
+          width: 80%;
+          border-radius: 15px;
+      " class="nav-link " href="admin_add_teacher">Add Teacher</a>
+        </li>
+        <li class="nav-item">
+          <a style="    background: #27637a;
+          color: white;
+          width: 80%;
+          border-radius: 15px;
+      " class="nav-link" href="admin_view_teacher">View Teacher</a>
+        </li>
+        <li class="nav-item">
+          <a style="    background: #27637a;
+          color: white;
+          width: 80%;
+          border-radius: 15px;
+      " class="nav-link" href="logout">Logout</a>
+        </li>
+       
+      </ul>
+
+      <div class="mt-4">
+
+        <input id="search_data" style="    width: 22%;
+        padding: 18px 14px;
+        margin: 15px 203px;" type="text" class="form-control" placeholder="Search">
+
+
+        <div class="container mt-4" id="_appendHere">
+
+          
+            <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Firstname</th>
+                    <th scope="col">Lastname</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">phone_number</th>
+                    <th scope="col"> Created at</th>
+                    <th scope="col">View</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for teacher in teachers_data %}
+                  <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{teacher.first_name}}</td>
+                    <td>{{teacher.last_name}}</td>
+                    <td>{{teacher.email}}</td>
+                    <td>
+                        {{teacher.phone_number}}
+                    </td>
+                    <td>
+                        {{teacher.dt}}<br>
+                        {{teacher.tm}}
+                    </td>
+                    <td>
+
+                        <a href="#" class="view_more_details" data-id="{{teacher.id}}">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                  </tr>
+
+                  {% endfor %}
+                 
+                </tbody>
+              </table>
+        </div>
+      </div>
+     
+
+      <div id="more_details">
+
+      </div>
+
+
+      <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+      <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script>
+
+    $(".view_more_details").click(function(){
+        var id = $(this).attr("data-id")
+        var url = "view_teacher_more_details" 
+       
+
+      $.ajax({                      
+        url: url,                  
+        data: {
+          'id': id      
+        },
+        success: function (data) {  
+          $("#more_details").html(data);  
+
+          $('#exampleModal2').modal('show');
+
+         
+
+         
+        }
+      });
+
+    })
+</script>
+
+
+<script>
+    $("#search_data").change(function () {
+
+        
+      event.preventDefault();
+          var search_data = $(this).val();
+         alert(search_data)
+      $.ajax({
+        url: 'search_result',
+        data: {
+          "search_data": search_data,
+        },
+        success: function (data) {  
+            $('#_appendHere').empty().append(data); 
+        }
+      });
+    });
+</script>
+
+<script>
+    
+</script>
+</body>
+</html>
